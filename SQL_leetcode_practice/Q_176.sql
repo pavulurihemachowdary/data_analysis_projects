@@ -1,0 +1,63 @@
+--Question description
+
+-- Table: Employee
+
+-- +-------------+------+
+-- | Column Name | Type |
+-- +-------------+------+
+-- | id          | int  |
+-- | salary      | int  |
+-- +-------------+------+
+-- id is the primary key (column with unique values) for this table.
+-- Each row of this table contains information about the salary of an employee.
+ 
+
+-- Write a solution to find the second highest distinct salary from the Employee table. If there is no second highest salary, return null (return None in Pandas).
+
+-- The result format is in the following example.
+
+ 
+
+-- Example 1:
+
+-- Input: 
+-- Employee table:
+-- +----+--------+
+-- | id | salary |
+-- +----+--------+
+-- | 1  | 100    |
+-- | 2  | 200    |
+-- | 3  | 300    |
+-- +----+--------+
+-- Output: 
+-- +---------------------+
+-- | SecondHighestSalary |
+-- +---------------------+
+-- | 200                 |
+-- +---------------------+
+-- Example 2:
+
+-- Input: 
+-- Employee table:
+-- +----+--------+
+-- | id | salary |
+-- +----+--------+
+-- | 1  | 100    |
+-- +----+--------+
+-- Output: 
+-- +---------------------+
+-- | SecondHighestSalary |
+-- +---------------------+
+-- | null                |
+-- +---------------------+
+
+-- we can even solve this question using the dense_rank() funtion on this and 
+--  also rememmber whenever we have to return null we might use aggregate funtions like min/max,
+--  sometimes count/avg
+
+with cte as(
+    select salary, dense_rank() over (order by salary desc) as rn from Employee
+)
+
+select min(salary) as "SecondHighestSalary" from cte
+where rn=2
