@@ -43,19 +43,14 @@
 # There are no good tuples. Therefore, the answer is -1.
 
 
-def minimumDistance(self, nums: List[int]) -> int:
-        nums1=set(nums)
-        out=999
-        for i in nums1:
-            if nums.count(i)<3:
+def minimumDistance(nums) -> int:
+    n=len(nums)
+    ans=n+1
+    for i in range(n-2):
+        for j in range(i+1,n-1):
+            if nums[j]!=nums[i]:
                 continue
-            else:
-                res,lt=[],[]
-                for j in range(len(nums)):
-                    if nums[j]==i:
-                        lt.append(j)
-                lt.append(lt[0])
-                res=list(abs(lt[i]-lt[i+1]) for i in range(len(lt)-1))
-                res.sort()
-                out=min(out,res[0]+res[1]+res[2])
-        return out if out!=999 else -1
+            for k in range(j+1,n):
+                if nums[k]==nums[j]:
+                    ans=min(ans,k-i)
+    return -1 if ans==n+1 else ans*2
